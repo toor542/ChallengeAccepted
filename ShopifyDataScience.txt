@@ -1,0 +1,59 @@
+DATA SCIENCE INTERN CHALLENGE
+
+QUESTION 1:
+
+a.) 	What went wrong is when you guys were evaluating the Average Order Value (AOV) you considered the total 
+	number of order ids (5000) for calculating the AOV. You simply took the number of rows through order Id, 
+	whereas you forgot that each row has a different number of ordered products.
+	So for each purchase you just considered selling of one product.
+	You should have used the total number of items for all orders instead of total number of orders.
+	So you used the formula as : ( sum total of order_amount ) / ( count of order ids )
+
+	A better approach for this would be to use the total amount each order had and then use it for evaluating the AOV.
+	Thus the formula should be : ( sum total of order_amount ) / ( sum of total items )
+
+b.) 	So the metric to be used should be to divide the total revenue, which is total of order amount, by
+	the sum of total items.
+	
+		AOV = ( sum total of order_amount ) / ( sum of total items )
+
+c.) 	When we put the respective values we get,
+	sum total of order_amount = 15725640
+	sum of total items = 43936
+	
+	Thus,
+		AOV = 15725640 / 43936
+		
+		AOV = 357.92
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+QUESTION 2:
+
+a.)	SELECT COUNT (*) FROM [Orders] where ShipperID = 1;
+
+	Ans. 54
+
+b.) 	SELECT LastName from Employees where EmployeeID in 
+	(SELECT EmployeeID from (SELECT EmployeeID, max (total) from 
+	(SELECT EmployeeID, COUNT (*) total from [Orders] group by EmployeeID)));
+
+	Ans. Peacock
+
+c.) 	SELECT ProductName from Products where ProductID in(
+	SELECT ProductID from (
+	SELECT ProductID, MAX (total) from (
+	SELECT ProductID, SUM (Quantity) total from OrderDetails where OrderID in(
+	SELECT OrderID from Customers, Orders where Customers.CustomerID = Orders.CustomerID and Country = 'Germany')
+	group by ProductID)));
+
+	Ans. Boston Crab Meat
+
+
+
+
+
+
+
+
+
